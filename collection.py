@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+CHANNEL = os.getenv('DISCORD_CHANNEL')
 
 f = open(r"C:\Users\cyrus\testFileWrite.txt", "w")   # 'r' for reading and 'w' for writing
 members = []
@@ -12,7 +13,7 @@ class MyClient(discord.Client):
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
                 # Get the channel by ID
-        channel = client.get_channel(1214586809774907425)
+        channel = client.get_channel(CHANNEL)
         
         # Check if the channel is valid
         if channel is not None:
