@@ -2,6 +2,9 @@
 
 import discord
 from discord.ext import commands
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+
 f = open(r"C:\Users\cyrus\testFileWrite.txt", "w")   # 'r' for reading and 'w' for writing
 members = []
 
@@ -59,6 +62,6 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 client = MyClient(intents=intents)
-client.run('MTIxNDQ3MTczOTU3MzAxNDU3OQ.GEo5YS.N737hTLYUGIS6P4vMcTHlzWVBmehTcr0geeex0')
+client.run(TOKEN)
 
 
