@@ -35,7 +35,7 @@ class MyClient(discord.Client):
             print("Channel not found or bot doesn't have access.")
 
     async def on_message(self, message):
-        channel = client.get_channel(1214586809774907425)
+        channel = client.get_channel(CHANNEL)
         print(f'Message from {message.author}: {message.content}')
         print(message.author.id)
         # Check if the channel is valid
