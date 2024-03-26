@@ -3,8 +3,8 @@
 import discord
 from discord.ext import commands
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-CHANNEL = os.getenv('DISCORD_CHANNEL')
+TOKEN = 'MTIxNDQ3MTczOTU3MzAxNDU3OQ.GjiI26.MZYGu0WntU2VX5e7uuJDJouhKLfKHNXenQrueQ'
+CHANNEL = '1214586809774907425'
 
 f = open(r"C:\Users\cyrus\testFileWrite.txt", "w")   # 'r' for reading and 'w' for writing
 members = []
