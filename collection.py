@@ -1,68 +1,42 @@
-# This example requires the 'message_content' intent.
-
+import os
 import discord
 from discord.ext import commands
-load_dotenv()
-TOKEN = 'MTIxNDQ3MTczOTU3MzAxNDU3OQ.GjiI26.MZYGu0WntU2VX5e7uuJDJouhKLfKHNXenQrueQ'
-CHANNEL = '1214586809774907425'
+from dotenv import load_dotenv
 
-f = open(r"C:\Users\cyrus\testFileWrite.txt", "w")   # 'r' for reading and 'w' for writing
-members = []
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+CHANNEL = int(os.getenv('DISCORD_CHANNEL'))  # Assuming the channel ID is an integer
 
 class MyClient(discord.Client):
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
-                # Get the channel by ID
-        channel = client.get_channel(CHANNEL)
-        
+
+        # Get the channel by ID
+        channel = self.get_channel(CHANNEL)
+
         # Check if the channel is valid
         if channel is not None:
-            # Fetch message history
-            messages = []
-            async for msg in channel.history(limit=200):
-                messages.append(msg)
-            
-            for msg in messages:
-                print(msg.content)
-                print(msg.author)
-                if msg.author not in members:
-                    members.append(msg.author)
-                f.write(str(msg.author)+" : "+str(msg.content))    # Write inside file
-                f.write(" \n")
-            for mem in members:
-                print(mem)
+            # Open the file for writing
+            with open(r"C:\Users\cyrus\OneDrive\Desktop\discord-bot\testFileWrite.txt", "a") as f:
+                # Fetch message history
+                async for msg in channel.history(limit=200):
+                    # Write message author and content to file
+                    f.write(f"{msg.author}: {msg.content}\n")
         else:
             print("Channel not found or bot doesn't have access.")
 
     async def on_message(self, message):
-        channel = client.get_channel(CHANNEL)
         print(f'Message from {message.author}: {message.content}')
         print(message.author.id)
-        # Check if the channel is valid
-        if channel is not None:
-            # Fetch message history
-            messages = []
-            async for msg in channel.history(limit=200):
-                messages.append(msg)
-            
-            for msg in messages:
-                print(msg.content)
-                print(msg.author)
-                if msg.author not in members:
-                    members.append(msg.author)
-                f.write(str(msg.author)+" : "+str(msg.content))    # Write inside file
-                f.write(" \n")
-            for mem in members:
-                print(mem)
-            f.close()
+        if message.channel.id == CHANNEL:
+            # Open the file for appending
+            with open(r"C:\Users\cyrus\OneDrive\Desktop\discord-bot\testFileWrite.txt", "a") as f:
+                # Write new message author and content to file
+                f.write(f"{message.author}: {message.content}\n")
+        f.close()
 
-        
-
-
-##intents = discord.Intents.default()
-##intents.message_content = True
+intents = discord.Intents.default()
+intents.message_content = True
 
 client = MyClient(intents=intents)
 client.run(TOKEN)
-
-
