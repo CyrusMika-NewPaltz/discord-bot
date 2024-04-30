@@ -1,6 +1,7 @@
 import os
 import discord
 import pymongo
+import asyncio
 from discord.ext import commands
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -39,27 +40,32 @@ class MyClient(discord.Client):
 
     async def on_message(self, message):
         if message.channel.id == CHANNEL:
-            post = {"User ID": message.author.id, "Username": message.author.name, "Message": message.content} 
-            collection.insert_one(post)
-
-            # Open the file for appending with UTF-8 encoding
-            with open(r"C:\Users\cyrus\OneDrive\Desktop\discord-bot\testFileWrite.txt", "a", encoding="utf-8") as f:
-                # Write new message author and content to file
-                f.write(f"Message from {message.author}: {message.content}\n")
+            try:
+                post = {"User ID": message.author.id, "Username": message.author.name, "Message": message.content} 
+                collection.insert_one(post)
+                print("Message inserted into the database successfully.")
+            except Exception as e:
+                print(f"Error inserting message into the database: {e}")
 
     async def on_reaction_add(self, reaction, user):
         if reaction.message.channel.id == CHANNEL:
-            post = {"User ID": user.id, "Username": user.name, "Reaction": reaction.emoji}
-            collection.insert_one(post)
-
-            # Open the file for appending with UTF-8 encoding
-            with open(r"C:\Users\cyrus\OneDrive\Desktop\discord-bot\testFileWrite.txt", "a", encoding="utf-8") as f:
-                # Write new reaction added by user to file
-                f.write(f"Reaction {reaction.emoji} added by {user}\n")
+            try:
+                post = {"User ID": user.id, "Username": user.name, "Reaction": str(reaction.emoji)} 
+                collection.insert_one(post)
+                print("Reaction inserted into the database successfully.")
+            except Exception as e:
+                print(f"Error inserting reaction into the database: {e}")
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.reactions = True
 
 client = MyClient(intents=intents)
-client.run(TOKEN)
+
+async def main():
+    try:
+        await client.start(TOKEN)
+    except Exception as e:
+        print(f"An error occurred while starting the client: {e}")
+
+asyncio.run(main())
