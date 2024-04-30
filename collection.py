@@ -1,6 +1,5 @@
 import os
 import discord
-import discord
 import pymongo
 from discord.ext import commands
 from pymongo import MongoClient
@@ -42,25 +41,21 @@ class MyClient(discord.Client):
         if message.channel.id == CHANNEL:
             post = {"User ID": message.author.id, "Username": message.author.name, "Message": message.content} 
             collection.insert_one(post)
-        if message.channel.id == CHANNEL:
+
             # Open the file for appending with UTF-8 encoding
             with open(r"C:\Users\cyrus\OneDrive\Desktop\discord-bot\testFileWrite.txt", "a", encoding="utf-8") as f:
                 # Write new message author and content to file
                 f.write(f"Message from {message.author}: {message.content}\n")
-                # post = {"User ID": self.user.id, "Username": message.author.name, "Discriminator": self.user.discriminator, "Messager": message.content} 
-                # collection.insert_one(post)
 
     async def on_reaction_add(self, reaction, user):
         if reaction.message.channel.id == CHANNEL:
             post = {"User ID": user.id, "Username": user.name, "Reaction": reaction.emoji}
             collection.insert_one(post)
-        if reaction.message.channel.id == CHANNEL:
+
             # Open the file for appending with UTF-8 encoding
             with open(r"C:\Users\cyrus\OneDrive\Desktop\discord-bot\testFileWrite.txt", "a", encoding="utf-8") as f:
                 # Write new reaction added by user to file
                 f.write(f"Reaction {reaction.emoji} added by {user}\n")
-                # post = {"Username": self.user.name, "Reaction": reaction.emoji}
-                # collection.insert_one(post)
 
 intents = discord.Intents.default()
 intents.message_content = True
